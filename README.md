@@ -1,5 +1,7 @@
 # Quizeesphere 🧠🚀
 
+
+
 Welcome to **Quizeesphere**! A comprehensive, full-stack quiz platform built with the MERN stack (MongoDB, Express, React, Node.js). It empowers users to take, create, and share quizzes seamlessly, complete with automated grading, real-time leaderboards, and exclusive private quiz hosting.
 
 ## ✨ Features
