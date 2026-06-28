@@ -10,8 +10,25 @@ const router = express.Router();
 // @access  Private (Users & Admins)
 router.get('/', protect, async (req, res) => {
   try {
-    const quizzes = await Quiz.find().populate('createdBy', 'name');
+    const quizzes = await Quiz.find({ 
+      $or: [{ isPrivate: false }, { createdBy: req.user.id }] 
+    }).populate('createdBy', 'name');
     res.status(200).json({ success: true, count: quizzes.length, data: quizzes });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// @desc    Get private quiz by join code
+// @route   GET /api/quizzes/join/:code
+// @access  Private (All Users)
+router.get('/join/:code', protect, async (req, res) => {
+  try {
+    const quiz = await Quiz.findOne({ joinCode: req.params.code.toUpperCase(), isPrivate: true });
+    if (!quiz) {
+      return res.status(404).json({ success: false, error: 'Quiz not found or invalid code' });
+    }
+    res.status(200).json({ success: true, data: { _id: quiz._id } });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -40,13 +57,14 @@ router.get('/:id', protect, async (req, res) => {
 
 // @desc    Create new quiz
 // @route   POST /api/quizzes
-// @access  Private (Admin only)
-// Note: In a real scenario, handling multiple file uploads for questions in one request is tricky.
-// We'll assume the frontend sends JSON with imageUrls (after uploading them separately) or we handle a simple single array.
-// For simplicity, let's just accept the full JSON body. If image uploads are needed, they can be done via a separate /api/upload endpoint.
-router.post('/', protect, authorize('admin'), async (req, res) => {
+// @access  Private (All Users)
+router.post('/', protect, async (req, res) => {
   try {
     req.body.createdBy = req.user.id;
+    if (req.body.isPrivate) {
+      // Generate a random 6-character alphanumeric string
+      req.body.joinCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+    }
     const quiz = await Quiz.create(req.body);
     res.status(201).json({ success: true, data: quiz });
   } catch (err) {
@@ -56,8 +74,8 @@ router.post('/', protect, authorize('admin'), async (req, res) => {
 
 // @desc    Upload image to cloudinary (helper route for quiz creation)
 // @route   POST /api/quizzes/upload
-// @access  Private (Admin only)
-router.post('/upload', protect, authorize('admin'), upload.single('image'), (req, res) => {
+// @access  Private (All Users)
+router.post('/upload', protect, upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ success: false, error: 'Please upload a file' });
   }

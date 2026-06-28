@@ -17,8 +17,9 @@ const Navbar = () => {
   return (
     <nav className="bg-surface-light dark:bg-surface-dark shadow-sm border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold tracking-tighter hover:text-secondary-light dark:hover:text-secondary-dark transition-colors">
-          QUIZEE
+        <Link to="/" className="flex items-center space-x-2 text-2xl font-black tracking-tighter">
+          <Layers className="text-accent-light dark:text-accent-dark" size={32} />
+          <span>Quizeesphere</span>
         </Link>
 
         <div className="flex items-center space-x-6">

@@ -66,8 +66,8 @@ router.get('/user', protect, async (req, res) => {
 
 // @desc    Get leaderboard for a specific quiz
 // @route   GET /api/attempts/quiz/:quizId
-// @access  Private (Admin only)
-router.get('/quiz/:quizId', protect, authorize('admin'), async (req, res) => {
+// @access  Private (All Users)
+router.get('/quiz/:quizId', protect, async (req, res) => {
   try {
     const attempts = await Attempt.find({ quiz: req.params.quizId })
       .populate('user', 'name email')

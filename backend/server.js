@@ -32,7 +32,7 @@ app.use('/api/quizzes', quizRoutes);
 app.use('/api/attempts', attemptRoutes);
 
 app.get('/', (req, res) => {
-  res.send('QUIZEE API is running');
+  res.send('Quizeesphere API is running');
 });
 
 // Error handling middleware

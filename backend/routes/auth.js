@@ -15,7 +15,8 @@ const sendTokenResponse = (user, statusCode, res) => {
   const options = {
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
     httpOnly: true,
-    // secure: process.env.NODE_ENV === 'production' // uncomment in production
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
   };
 
   res.status(statusCode).cookie('token', token, options).json({
@@ -71,8 +72,8 @@ router.post('/register', async (req, res) => {
     try {
       await sendEmail({
         email: user.email,
-        subject: 'Verify your QUIZEE account',
-        message: `Welcome to QUIZEE, ${name}! Please verify your email address to activate your account. This link expires in 24 hours.`,
+        subject: 'Verify your Quizeesphere account',
+        message: `Welcome to Quizeesphere, ${name}! Please verify your email address to activate your account. This link expires in 24 hours.`,
         link: verifyUrl,
         linkText: 'Verify My Email'
       });
@@ -157,7 +158,9 @@ router.post('/login', async (req, res) => {
 router.post('/logout', protect, (req, res) => {
   res.cookie('token', 'none', {
     expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
   });
 
   res.status(200).json({ success: true, data: {} });

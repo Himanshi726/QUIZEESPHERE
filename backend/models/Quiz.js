@@ -38,6 +38,15 @@ const quizSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User',
     required: true
+  },
+  isPrivate: {
+    type: Boolean,
+    default: false
+  },
+  joinCode: {
+    type: String,
+    unique: true,
+    sparse: true
   }
 }, { timestamps: true });
 

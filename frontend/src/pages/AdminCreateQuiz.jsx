@@ -9,6 +9,7 @@ const AdminCreateQuiz = () => {
     title: '',
     description: '',
     timeLimit: 30,
+    isPrivate: false,
   });
   const [questions, setQuestions] = useState([
     { text: '', options: ['', '', '', ''], correctAnswer: '', imageUrl: '' }
@@ -53,10 +54,13 @@ const AdminCreateQuiz = () => {
     }
 
     try {
-      await api.post('/quizzes', {
+      const res = await api.post('/quizzes', {
         ...formData,
         questions
       });
+      if (res.data.data.isPrivate && res.data.data.joinCode) {
+        window.alert(`Your private quiz has been created!\n\nShare this Join Code with your participants: ${res.data.data.joinCode}`);
+      }
       navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to create quiz');
@@ -118,6 +122,16 @@ const AdminCreateQuiz = () => {
                 className="mt-3 w-full px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-accent-light"
               />
             )}
+          </div>
+          <div className="flex items-center space-x-2 pt-2">
+            <input 
+              type="checkbox" 
+              id="isPrivate" 
+              checked={formData.isPrivate} 
+              onChange={e => setFormData({...formData, isPrivate: e.target.checked})}
+              className="w-4 h-4 text-accent-light focus:ring-accent-light border-gray-300 rounded"
+            />
+            <label htmlFor="isPrivate" className="text-sm font-medium">Make this quiz private (accessible only via a Join Code)</label>
           </div>
         </div>
 

@@ -31,7 +31,7 @@ export const generateCertificate = async (userName, quizTitle, score, dateString
       <div style="font-size: 42px; font-weight: bold; background-color: #000; color: #fff; padding: 10px 30px; border-radius: 5px; margin-bottom: 30px;">${score.toFixed(1)}%</div>
       <p style="font-size: 16px; color: #666;">Date: ${dateString}</p>
       <div style="margin-top: 40px; border-top: 1px solid #ccc; width: 40%; padding-top: 10px;">
-        <p style="font-size: 14px; font-weight: bold; text-transform: uppercase;">QUIZEE Platform</p>
+        <p style="font-size: 14px; font-weight: bold; text-transform: uppercase;">Quizeesphere Platform</p>
       </div>
     </div>
   `;

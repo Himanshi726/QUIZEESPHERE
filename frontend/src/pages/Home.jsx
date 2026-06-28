@@ -13,7 +13,7 @@ const Home = () => {
     <div className="flex flex-col items-center justify-center min-h-[80vh] text-center">
       <BrainCircuit className="w-24 h-24 mb-8 text-accent-light dark:text-accent-dark" />
       <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
-        Master Your Knowledge with <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400">QUIZEE</span>
+        Master Your Knowledge with <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400">Quizeesphere</span>
       </h1>
       <p className="text-xl md:text-2xl mb-10 text-secondary-light dark:text-secondary-dark max-w-2xl">
         The ultimate platform for taking secure, timed quizzes. Test yourself, earn certificates, and climb the leaderboard.

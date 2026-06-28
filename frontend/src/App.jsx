@@ -41,8 +41,8 @@ function App() {
                 <Route path="/verify/:token" element={<VerifyEmail />} />
                 <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
                 <Route path="/quiz/:id" element={<PrivateRoute><QuizAttempt /></PrivateRoute>} />
-                <Route path="/admin/quiz/create" element={<PrivateRoute requireAdmin={true}><AdminCreateQuiz /></PrivateRoute>} />
-                <Route path="/admin/quiz/:id/leaderboard" element={<PrivateRoute requireAdmin={true}><AdminLeaderboard /></PrivateRoute>} />
+                <Route path="/admin/quiz/create" element={<PrivateRoute><AdminCreateQuiz /></PrivateRoute>} />
+                <Route path="/admin/quiz/:id/leaderboard" element={<PrivateRoute><AdminLeaderboard /></PrivateRoute>} />
                 <Route path="*" element={<div className="text-center mt-20 text-2xl font-bold">404 - Not Found</div>} />
               </Routes>
             </main>
