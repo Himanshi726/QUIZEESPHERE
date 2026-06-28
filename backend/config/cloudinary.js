@@ -1,5 +1,4 @@
 const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
 
 cloudinary.config({
@@ -8,14 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'quizee_uploads',
-    allowedFormats: ['jpeg', 'png', 'jpg', 'webp'],
-  },
-});
-
-const upload = multer({ storage: storage });
+// Use memory storage — images are uploaded manually to Cloudinary via the SDK
+const upload = multer({ storage: multer.memoryStorage() });
 
 module.exports = { cloudinary, upload };

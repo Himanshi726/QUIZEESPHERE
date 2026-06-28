@@ -67,26 +67,17 @@ router.post('/register', async (req, res) => {
 
     // Send verification email
     const verifyUrl = `${process.env.FRONTEND_URL}/verify/${verificationToken}`;
-    const message = `You are receiving this email because you (or someone else) registered an account. Please make a GET request to: \n\n ${verifyUrl}`;
 
     try {
-      if (process.env.SMTP_EMAIL === 'dummy') {
-        console.log(`[DEV MODE] Verification Link: ${verifyUrl}`);
-        // Auto-verify user for local testing convenience
-        user.isVerified = true;
-        user.verificationToken = undefined;
-        user.verificationTokenExpire = undefined;
-        await user.save({ validateBeforeSave: false });
-        return res.status(200).json({ success: true, data: 'Local dev mode: user auto-verified' });
-      }
-
       await sendEmail({
         email: user.email,
-        subject: 'QUIZEE - Email Verification',
-        message
+        subject: 'Verify your QUIZEE account',
+        message: `Welcome to QUIZEE, ${name}! Please verify your email address to activate your account. This link expires in 24 hours.`,
+        link: verifyUrl,
+        linkText: 'Verify My Email'
       });
 
-      res.status(200).json({ success: true, data: 'Email sent' });
+      res.status(200).json({ success: true, data: 'Verification email sent! Please check your inbox.' });
     } catch (err) {
       console.error(err);
       user.verificationToken = undefined;
